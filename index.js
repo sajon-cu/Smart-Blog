@@ -1,5 +1,4 @@
 const express = require('express')
-const path = require('path')
 const ejs = require('ejs')
 const bodyParser = require('body-parser')
 const mongose = require('mongoose')
@@ -10,6 +9,13 @@ const validateMiddleWare = require('./middlewares/validateMiddleWare')
 
 // models
 const BlogPost = require('./models/BlogPost')
+
+// controllers
+const homeController = require('./controllers/home')
+const storePostController = require('./controllers/storePost')
+const newPostController = require('./controllers/newPost')
+const getPostController = require('./controllers/getPost')
+
 
 mongose.connect('mongodb://localhost/my_database', {
     useNewUrlParser: true
@@ -34,42 +40,20 @@ app.listen(3000, (req, res) => {
     console.log('App listening on port 3000')
 })
 
-app.get('/about', (req, res) => {
-    //res.sendFile(path.resolve(__dirname, 'pages/about.html'))
-    res.render('about')
-})
+// app.get('/about', (req, res) => {
+//     //res.sendFile(path.resolve(__dirname, 'pages/about.html'))
+//     res.render('about')
+// })
 
-app.get('/contact', (req, res) => {
-    //res.sendFile(path.resolve(__dirname, 'pages/contact.html'))
-    res.render('contact')
-})
+// app.get('/contact', (req, res) => {
+//     //res.sendFile(path.resolve(__dirname, 'pages/contact.html'))
+//     res.render('contact')
+// })
 
-app.get('/post/new', (req, res) => {
-    res.render('create')
-})
+app.get('/post/new', newPostController)
 
-app.get('/post/:id', async (req, res) => {
-    //res.sendFile(path.resolve(__dirname, 'pages/post.html'))
-    const blogpost = await BlogPost.findById(req.params.id)
-    res.render('post', {
-        blogpost
-    })
-})
+app.get('/post/:id', getPostController)
 
-app.post('/posts/store', validateMiddleWare, async(req, res) => {
-    let image = req.files.image
-    image.mv(path.resolve(__dirname, 'public/img', image.name), async(error) => {
-        await BlogPost.create({
-            ...req.body,
-            image: '/img/'+image.name
-        })
-        res.redirect('/')
-    })
-})
+app.post('/posts/store', validateMiddleWare, storePostController)
 
-app.get('/', async(req, res) => {
-    const blogposts = await BlogPost.find({})
-    res.render('index', {
-        blogposts
-    });
-})
+app.get('/', homeController)
