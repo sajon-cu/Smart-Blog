@@ -15,6 +15,8 @@ const homeController = require('./controllers/home')
 const storePostController = require('./controllers/storePost')
 const newPostController = require('./controllers/newPost')
 const getPostController = require('./controllers/getPost')
+const newUserController = require('./controllers/newUser')
+const storeUserController = require('./controllers/storeUser')
 
 
 mongose.connect('mongodb://localhost/my_database', {
@@ -49,6 +51,10 @@ app.listen(3000, (req, res) => {
 //     //res.sendFile(path.resolve(__dirname, 'pages/contact.html'))
 //     res.render('contact')
 // })
+
+// auth route
+app.get('/auth/register', newUserController)
+app.post('/users/register', storeUserController)
 
 app.get('/post/new', newPostController)
 

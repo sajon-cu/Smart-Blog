@@ -1,5 +1,7 @@
 const validateMiddleWare = (req, res, next) => {
-    if(req.files == null || req.title == null || req.body == null) {
+    console.log(req.files)
+    if(req.files == null || req.title === null || req.body === null) {
+        console.log("null")
         return res.redirect('/post/new')
     }
     next()
