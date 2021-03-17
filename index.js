@@ -17,6 +17,8 @@ const newPostController = require('./controllers/newPost')
 const getPostController = require('./controllers/getPost')
 const newUserController = require('./controllers/newUser')
 const storeUserController = require('./controllers/storeUser')
+const loginController = require('./controllers/login')
+const userLoginController = require('./controllers/loginUser')
 
 
 mongose.connect('mongodb://localhost/my_database', {
@@ -55,6 +57,8 @@ app.listen(3000, (req, res) => {
 // auth route
 app.get('/auth/register', newUserController)
 app.post('/users/register', storeUserController)
+app.get('/auth/login', loginController)
+app.post('/users/login', userLoginController)
 
 app.get('/post/new', newPostController)
 
