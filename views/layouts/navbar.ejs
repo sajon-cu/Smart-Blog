@@ -19,15 +19,22 @@
           <li class="nav-item">
             <a class="nav-link" href="/contact">Contact</a>
           </li> -->
+          <% if(loggedIn) { %>
           <li class="nav-item">
             <a class="nav-link" href="/post/new">New Post</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/logout">Log out</a>
+          </li>
+          <% } %>
+          <% if(!loggedIn) { %>
           <li class="nav-item">
             <a class="nav-link" href="/auth/login">Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/auth/register">New User</a>
           </li>
+          <% } %>
         </ul>
       </div>
     </div>

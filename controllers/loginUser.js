@@ -7,6 +7,7 @@ module.exports = (req, res) => {
         if(user) {
             bycript.compare(password, user.password, (error, same) => {
                 if(same) {
+                    req.session.userId = user._id
                     res.redirect('/')
                 } else {
                     res.redirect('/auth/login')
